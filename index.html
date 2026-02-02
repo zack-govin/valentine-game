@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Catch My Heart 💘</title>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+    background: linear-gradient(#ffd1dc, #ff9a9e);
+  }
+
+  #game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #score {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 22px;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  #player {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    pointer-events: none;
+  }
+
+  .heart {
+    position: absolute;
+    font-size: 32px;
+    pointer-events: none;
+  }
+
+  #overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.95);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  #overlay h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  #overlay button {
+    font-size: 22px;
+    padding: 12px 30px;
+    border-radius: 14px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+<div id="game">
+  <div id="score">Hearts: 0</div>
+  <div id="player">🧸</div>
+
+  <div id="overlay">
+    <h1>💘 You caught my heart 💘<br><br>Will you be my Valentine?</h1>
+    <button onclick="celebrate()">Yes 💖</button>
+  </div>
+</div>
+
+<script>
+  const game = document.getElementById("game");
+  const player = document.getElementById("player");
+  const scoreText = document.getElementById("score");
+  const overlay = document.getElementById("overlay");
+
+  let score = 0;
+  let gameEnded = false;
+  let playerX = window.innerWidth / 2;
+
+  // Touch controls
+  game.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    playerX = touch.clientX;
+    player.style.left = playerX + "px";
+  });
+
+  function spawnHeart() {
+    if (gameEnded) return;
+
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * (window.innerWidth - 30) + "px";
+    heart.style.top = "-40px";
+    game.appendChild(heart);
+
+    let y = -40;
+    const fall = setInterval(() => {
+      if (gameEnded) {
+        clearInterval(fall);
+        heart.remove();
+        return;
+      }
+
+      y += 4;
+      heart.style.top = y + "px";
+
+      const heartRect = heart.getBoundingClientRect();
+      const playerRect = player.getBoundingClientRect();
+
+      if (
+        heartRect.bottom >= playerRect.top &&
+        heartRect.left < playerRect.right &&
+        heartRect.right > playerRect.left
+      ) {
+        clearInterval(fall);
+        heart.remove();
+        score++;
+        scoreText.textContent = "Hearts: " + score;
+
+        if (score >= 10) {
+          endGame();
+        }
+      }
+
+      if (y > window.innerHeight) {
+        clearInterval(fall);
+        heart.remove();
+      }
+    }, 20);
+  }
+
+  function endGame() {
+    gameEnded = true;
+    overlay.style.display = "flex";
+  }
+
+  function celebrate() {
+    overlay.innerHTML = `
+      <h1>🥰 YAY 🥰</h1>
+      <p style="font-size:22px;">Best Valentine ever 💕</p>
+    `;
+  }
+
+  setInterval(spawnHeart, 800);
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Catch My Heart 💘</title>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+    background: linear-gradient(#ffd1dc, #ff9a9e);
+  }
+
+  #game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #score {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 22px;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  #player {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    pointer-events: none;
+  }
+
+  .heart {
+    position: absolute;
+    font-size: 32px;
+    pointer-events: none;
+  }
+
+  #overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.95);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  #overlay h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  #overlay button {
+    font-size: 22px;
+    padding: 12px 30px;
+    border-radius: 14px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+<div id="game">
+  <div id="score">Hearts: 0</div>
+  <div id="player">🧸</div>
+
+  <div id="overlay">
+    <h1>💘 You caught my heart 💘<br><br>Will you be my Valentine?</h1>
+    <button onclick="celebrate()">Yes 💖</button>
+  </div>
+</div>
+
+<script>
+  const game = document.getElementById("game");
+  const player = document.getElementById("player");
+  const scoreText = document.getElementById("score");
+  const overlay = document.getElementById("overlay");
+
+  let score = 0;
+  let gameEnded = false;
+  let playerX = window.innerWidth / 2;
+
+  // Touch controls
+  game.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    playerX = touch.clientX;
+    player.style.left = playerX + "px";
+  });
+
+  function spawnHeart() {
+    if (gameEnded) return;
+
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * (window.innerWidth - 30) + "px";
+    heart.style.top = "-40px";
+    game.appendChild(heart);
+
+    let y = -40;
+    const fall = setInterval(() => {
+      if (gameEnded) {
+        clearInterval(fall);
+        heart.remove();
+        return;
+      }
+
+      y += 4;
+      heart.style.top = y + "px";
+
+      const heartRect = heart.getBoundingClientRect();
+      const playerRect = player.getBoundingClientRect();
+
+      if (
+        heartRect.bottom >= playerRect.top &&
+        heartRect.left < playerRect.right &&
+        heartRect.right > playerRect.left
+      ) {
+        clearInterval(fall);
+        heart.remove();
+        score++;
+        scoreText.textContent = "Hearts: " + score;
+
+        if (score >= 10) {
+          endGame();
+        }
+      }
+
+      if (y > window.innerHeight) {
+        clearInterval(fall);
+        heart.remove();
+      }
+    }, 20);
+  }
+
+  function endGame() {
+    gameEnded = true;
+    overlay.style.display = "flex";
+  }
+
+  function celebrate() {
+    overlay.innerHTML = `
+      <h1>🥰 YAY 🥰</h1>
+      <p style="font-size:22px;">Best Valentine ever 💕</p>
+    `;
+  }
+
+  setInterval(spawnHeart, 800);
+</script>
+</body>
+</html>
